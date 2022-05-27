@@ -58,7 +58,7 @@ RUN pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/
 RUN pip install --upgrade pip && \
     pip install pillow-simd && \
     pip install paddlepaddle-gpu==2.3.0.post112 -f https://www.paddlepaddle.org.cn/whl/linux/mkl/avx/stable.html  \
-RUN pip install paddlenlp && \
+RUN pip install paddlenlp protobuf==3.20.1 && \
     rm -rf ~/.cache/pip
 
 ENV CUDA_HOME=/usr/local/cuda
