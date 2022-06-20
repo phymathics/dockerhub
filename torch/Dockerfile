@@ -4,7 +4,7 @@ LABEL maintainer="kunyuan.yao@gmail.com"
 
 ARG PYTHON_VERSION=3.8
 ARG CONDA_DIR=/opt/conda
-ARG USERNAME=docker
+ARG USERNAME=kunyuan
 ARG USERID=1000
 
 RUN mv /etc/apt/sources.list /etc/apt/sources.list.bat

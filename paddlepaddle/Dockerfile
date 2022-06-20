@@ -4,7 +4,7 @@ LABEL maintainer="kunyuan.yao@gmail.com"
 
 ARG PYTHON_VERSION=3.8
 ARG CONDA_DIR=/opt/conda
-ARG USERNAME=docker
+ARG USERNAME=kunyuan
 ARG USERID=1000
 
 RUN mv /etc/apt/sources.list /etc/apt/sources.list.bat
@@ -58,8 +58,13 @@ RUN pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/
 RUN pip install --upgrade pip && \
     pip install pillow-simd && \
     pip install paddlepaddle-gpu==2.3.0.post112 -f https://www.paddlepaddle.org.cn/whl/linux/mkl/avx/stable.html  \
-RUN pip install paddlenlp protobuf==3.20.1 && \
     rm -rf ~/.cache/pip
+
+ 
+RUN pip install paddlenlp protobuf==3.20.1
+# or
+# RUN pip install paddlenlp protobuf==4.21.1
+# ENV PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=cpp
 
 ENV CUDA_HOME=/usr/local/cuda
 ENV CUDA_ROOT=$CUDA_HOME
