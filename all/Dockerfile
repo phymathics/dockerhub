@@ -39,13 +39,20 @@ RUN useradd --create-home -s /bin/bash --no-user-group -u $USERID $USERNAME && \
 USER $USERNAME
 WORKDIR /home/$USERNAME
 
-RUN conda config --add channels https://mirrors.ustc.edu.cn/anaconda/pkgs/main/ && \
-conda config --add channels https://mirrors.ustc.edu.cn/anaconda/pkgs/free/ && \
-conda config --add channels https://mirrors.ustc.edu.cn/anaconda/cloud/conda-forge/ && \
-conda config --add channels https://mirrors.ustc.edu.cn/anaconda/cloud/msys2/ && \
-conda config --add channels https://mirrors.ustc.edu.cn/anaconda/cloud/bioconda/ && \
-conda config --add channels https://mirrors.ustc.edu.cn/anaconda/cloud/menpo/ && \
-conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/pytorch/ &&\
+#RUN conda config --add channels https://mirrors.ustc.edu.cn/anaconda/pkgs/main/ && \
+#conda config --add channels https://mirrors.ustc.edu.cn/anaconda/pkgs/free/ && \
+#conda config --add channels https://mirrors.ustc.edu.cn/anaconda/cloud/conda-forge/ && \
+#conda config --add channels https://mirrors.ustc.edu.cn/anaconda/cloud/msys2/ && \
+#conda config --add channels https://mirrors.ustc.edu.cn/anaconda/cloud/bioconda/ && \
+#conda config --add channels https://mirrors.ustc.edu.cn/anaconda/cloud/menpo/ && \
+#conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/pytorch/ && \
+#conda config --set show_channel_urls yes
+
+RUN conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/msys2/ && \
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge && \
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/ && \
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/pytorch/ && \
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/ && \
 conda config --set show_channel_urls yes
 
 RUN conda install -y python=$PYTHON_VERSION && \
