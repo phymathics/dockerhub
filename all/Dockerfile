@@ -15,26 +15,26 @@ RUN rm /etc/apt/sources.list.d/nvidia-ml.list
 
 # Instal basic utilities
 RUN apt update && \
-  apt install -y --no-install-recommends git wget unzip bzip2 sudo build-essential vim && \
-  apt clean && \
-  rm -rf /var/lib/apt/lists/*
+    apt install -y --no-install-recommends git wget unzip bzip2 sudo build-essential vim && \
+    apt clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Install miniconda
 ENV PATH $CONDA_DIR/bin:$PATH
 COPY ./Miniconda3-py38_4.11.0-Linux-x86_64.sh /tmp/miniconda.sh
 
 RUN apt install -y --no-install-recommends ca-certificates && \
-  echo 'export PATH=$CONDA_DIR/bin:$PATH' > /etc/profile.d/conda.sh && \
-  /bin/bash /tmp/miniconda.sh -b -p $CONDA_DIR && \
-  rm -rf /tmp/* && \
-  apt-get clean && \
-  rm -rf /var/lib/apt/lists/*
+    echo 'export PATH=$CONDA_DIR/bin:$PATH' > /etc/profile.d/conda.sh && \
+    /bin/bash /tmp/miniconda.sh -b -p $CONDA_DIR && \
+    rm -rf /tmp/* && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Create the user
 RUN useradd --create-home -s /bin/bash --no-user-group -u $USERID $USERNAME && \
-  chown $USERNAME $CONDA_DIR -R && \
-  adduser $USERNAME sudo && \
-  echo "$USERNAME ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+    chown $USERNAME $CONDA_DIR -R && \
+    adduser $USERNAME sudo && \
+    echo "$USERNAME ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 USER $USERNAME
 WORKDIR /home/$USERNAME
@@ -49,15 +49,17 @@ conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/
 conda config --set show_channel_urls yes
 
 RUN conda install -y python=$PYTHON_VERSION && \
-  conda install -y pytorch torchvision torchaudio cudatoolkit=11.3 && \
-  conda install -y h5py scikit-learn matplotlib seaborn \
-  pandas mkl-service cython && \
-  conda clean -tipsy
+    conda install -y pytorch torchvision torchaudio cudatoolkit=11.3
+RUN conda install -y h5py scikit-learn matplotlib seaborn \
+    pandas mkl-service cython && \
+    conda clean -tipsy
 
 RUN pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple/
-RUN  pip install --upgrade pip && \
-  pip install pillow-simd && \
-  rm -rf ~/.cache/pip
+RUN pip install --upgrade pip && \
+    pip install pillow-simd && \
+    pip install paddlepaddle-gpu==2.3.0.post112 -f https://www.paddlepaddle.org.cn/whl/linux/mkl/avx/stable.html  \
+RUN pip install paddlenlp protobuf==3.20.1 && \
+    rm -rf ~/.cache/pip
 
 ENV CUDA_HOME=/usr/local/cuda
 ENV CUDA_ROOT=$CUDA_HOME
