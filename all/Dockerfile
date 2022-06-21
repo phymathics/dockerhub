@@ -61,6 +61,12 @@ RUN pip install --upgrade pip && \
 RUN pip install paddlenlp protobuf==3.20.1 && \
     rm -rf ~/.cache/pip
 
+RUN sudo apt update && sudo apt install curl -y
+RUN curl -sL https://deb.nodesource.com/setup_16.x -o /tmp/nodesource_setup.sh
+RUN sudo bash /tmp/nodesource_setup.sh
+RUN sudo apt install nodejs -y
+RUN sudo npm install -g pnpm
+
 ENV CUDA_HOME=/usr/local/cuda
 ENV CUDA_ROOT=$CUDA_HOME
 ENV PATH=$PATH:$CUDA_ROOT/bin:$HOME/bin

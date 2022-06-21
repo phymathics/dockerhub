@@ -1,6 +1,6 @@
 TORCH_IMAGE=beidongjiedeguang/pytorch:cuda11.3-cudnn8-ubuntu2004
 PADDLE_IMAGE=beidongjiedeguang/paddle:cuda11.3-cudnn8-ubuntu2004
-ALL_IN_ONE_IMAGE=beidongjiedeguang/pytorch-paddlenlpe:cuda11.3-cudnn8-ubuntu2004
+ALL_IN_ONE_IMAGE=beidongjiedeguang/pytorch-paddlenlpe-node:cuda11.3-cudnn8-ubuntu2004
 CONTAINER=torch-gpu-container
 
 
@@ -12,6 +12,10 @@ build-paddle:
 
 build-all:
 	docker build -t $(ALL_IN_ONE_IMAGE) -f ./all/Dockerfile .
+
+build-node:
+	docker build -t $(ALL_IN_ONE_IMAGE) -f ./node/Dockerfile .
+
 run:
 	docker run --rm --gpus all -it -v $(shell pwd):/home/ $(TORCH_IMAGE)  bash
 
