@@ -55,8 +55,8 @@ conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/
 conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/ && \
 conda config --set show_channel_urls yes
 
-RUN conda install -y python=$PYTHON_VERSION && \
-    conda install -y pytorch torchvision torchaudio cudatoolkit=11.3
+RUN conda install -y python=$PYTHON_VERSION
+RUN conda install -y pytorch torchvision torchaudio cudatoolkit=11.3
 RUN conda install -y h5py scikit-learn matplotlib seaborn \
     pandas mkl-service cython && \
     conda clean -tipsy
