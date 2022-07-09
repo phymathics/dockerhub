@@ -1,6 +1,6 @@
 # 构建镜像
 ```bash
-build-torch
+make build-torch
 ```
 
 
