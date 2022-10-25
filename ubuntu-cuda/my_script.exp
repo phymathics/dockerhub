@@ -1,0 +1,11 @@
+#!/usr/bin/expect
+
+
+
+set timeout 10
+
+curl https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -o miniconda.sh
+spawn sh ./miniconda.sh
+expect "1) Proceed with installation (default)"
+send "3\r"
+expect eof
