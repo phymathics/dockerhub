@@ -24,12 +24,18 @@ RUN apt install nodejs -y
 RUN curl https://sh.rustup.rs -sSf -o cargo_install.sh && bash cargo_install.sh -y && rm -rf cargo_install.sh
 
 # install lunarvim
-RUN wget https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh && \
-    chmod +x install.sh && \
+COPY ./lunarvim_install.sh ./install.sh
+RUN chmod +x install.sh && \
     bash install.sh --no-install-dependencies && \
-    echo 'export PATH="$HOME/.local/bin/:$PATH"' >>~/.bashrc
+    echo 'export PATH="$HOME/.local/bin/:$PATH"' >>~/.bashrc && \
+    echo "alias vim=~/.local/bin/lvim" >> ~/.bashrc
 
-RUN lvim +LvimUpdate +q
+RUN ~/.local/bin/lvim +LvimUpdate +q && \
+    ~/.local/bin/lvim +PackerSync +q && \
+    ~/.local/bin/lvim +PackerCompile +q && \
+    ~/.local/bin/lvim +PackerClean +q
+RUN echo "lvim.keys.insert_mode['kj'] = '<ESC>'" >> ~/.config/lvim/config.lua
+
 
 # python
 ENV PATH $CONDA_DIR/bin:$PATH
@@ -43,7 +49,10 @@ RUN conda && \
     echo ". ${CONDA_DIR}/bin/activate" >> ~/.bashrc
 # RUN pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/
 RUN pip install --upgrade pip && \
-    rm -rf ~/.cache/pip \
+    rm -rf ~/.cache/pip
+
+
+RUN curl https://getcroc.schollz.com | bash
 WORKDIR /root
 
 ENV CUDA_HOME=/usr/local/cuda
