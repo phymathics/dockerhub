@@ -8,9 +8,11 @@ ARG CONDA_DIR=/opt/conda
 #    apt update
 
 ARG DEBIAN_FRONTEND=noninteractive
-ENV TZ=Asia/Shangha
+#ENV TZ=Asia/Shangha
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
+RUN mv /etc/localtime /etc/localtime.bak && \
+    ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 RUN apt update
 RUN apt install -y --no-install-recommends ca-certificates
 RUN DEBIAN_FRONTEND=noninteractive apt install -y gcc make openssh-server curl wget git apt-utils
